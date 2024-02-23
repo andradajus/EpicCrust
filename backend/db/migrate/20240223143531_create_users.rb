@@ -7,7 +7,6 @@ class CreateUsers < ActiveRecord::Migration[7.1]
       t.string :mobile_number
       t.string :address
       t.string :role
-
       t.timestamps
     end
   end

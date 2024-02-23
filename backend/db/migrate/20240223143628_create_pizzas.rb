@@ -5,7 +5,7 @@ class CreatePizzas < ActiveRecord::Migration[7.1]
       t.decimal :price
       t.string :image
       t.string :description
-
+      t.belongs_to :order, foreign_key: true
       t.timestamps
     end
   end
