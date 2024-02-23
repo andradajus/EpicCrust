@@ -1,6 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: ["class"],
   content: [
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
@@ -8,14 +7,11 @@ module.exports = {
     './src/**/*.{ts,tsx}',
   ],
   prefix: "",
-  theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
-    },
+  daisyui: {
+    styled: true,
+    utils: true,
+    themes: ["bumblebee"],
+  },
     extend: {
       colors: {
         border: "hsl(var(--border))",
@@ -72,6 +68,5 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
-  },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("daisyui"),require("tailwindcss-animate"),require("@tailwindcss/typography")],
 }
