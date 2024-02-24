@@ -1,3 +1,4 @@
 class Pizza < ApplicationRecord
-  belongs_to :order
+  has_many :order_pizzas
+  has_many :orders, through: :order_pizzas
 end

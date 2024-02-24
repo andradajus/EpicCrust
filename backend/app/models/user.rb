@@ -15,6 +15,6 @@ class User < ApplicationRecord
   private
 
   def set_role_as_customer
-    update(role: 'customer')
+    update(role: 'customer') if role.nil?
   end
 end

@@ -7,11 +7,12 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'http://your.frontend.domain.com'
-    resource '/api/*',
-      headers: %w(Authorization),
-      methods: :any,
-      expose: %w(Authorization),
-      max_age: 600
+    origins "*"
+
+    resource "*",
+      headers: :any,
+      methods: [:get, :post, :put, :patch, :delete, :options, :head],
+      expose: ['Authorization', 'access-token', 'client', 'uid', 'expiry', 'token-type'],
+      provider_ignores_state: true
   end
 end
