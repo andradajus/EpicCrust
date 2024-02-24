@@ -1,21 +1,19 @@
 import './App.css'
-import Home from './pages/home/Home'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import HomeLayout from './pages/layout'
-import Order from './pages/order/Order'
+import Login from './pages/login/Login'
+
 
 function App() {
 
   return (
     <>
-        <HomeLayout>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="order" element ={<Order />} />
-            </Routes>
-          </BrowserRouter>
-        </HomeLayout>
+        <BrowserRouter>
+          <Routes>
+            <Route path="*" element={<HomeLayout />} />
+            <Route path="login" element={<Login />} />
+          </Routes>
+        </BrowserRouter>
     </>
   )
 }

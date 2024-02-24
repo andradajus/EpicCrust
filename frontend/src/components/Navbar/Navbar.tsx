@@ -1,14 +1,38 @@
+import { GameIconsFullPizza } from "@/assets/Icons"
+import { Link, useNavigate } from 'react-router-dom';
+
 const Navbar = () => {
+  const navigate = useNavigate()
   return (
     <>
       <div className="navbar bg-base-100">
-        <div className="flex-1">
-          <img src="https://i.ibb.co/7jyqm3J/pizza-logo-42816-D88-BE-seeklogo-com.png" alt="logo" className="w-12 h-10 mr-2" />
-          <a className="btn btn-ghost text-xl">Epic Crust</a>
+          <Link className="flex-1" to="/">
+            <img src="https://i.ibb.co/JpvPTYs/LOGO.png" alt="logo" className="w-12 h-10 mr-2" />
+            <a className="btn btn-ghost text-xl">Epic Crust</a>
+          </Link>
+
+        <div className="flex-1 w-full justify-between">
+          <div>
+            <ul className="menu menu-horizontal px-1">
+              <Link to="/menu">
+                <li>
+                  <a className="text-xl font-bold">
+                    <GameIconsFullPizza className="h-6 w-6 text-accent"/>
+                    Menu
+                  </a>
+                </li>
+              </Link>
+            </ul>
+          </div>
+          <div></div>
+          <div></div>
         </div>
 
 
         <div className="flex-none">
+          <div>
+            <button className="btn btn-ghost" onClick={() => navigate("/login")}>Login</button>
+          </div>
           <div className="dropdown dropdown-end">
             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
               <div className="indicator">
@@ -26,7 +50,6 @@ const Navbar = () => {
                 </div>
               </div>
             </div>
-            
           </div>
         </div>
       </div>
