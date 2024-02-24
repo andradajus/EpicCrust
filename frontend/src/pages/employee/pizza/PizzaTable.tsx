@@ -7,6 +7,7 @@ type PizzaDataProps = {
     size: string;
     price: number;
     image: string;
+    is_available: boolean;
 }
 const PizzaTable = () => {
     const [pizzaData, setPizzaData] = useState<PizzaDataProps[]>([]);
@@ -16,12 +17,12 @@ const PizzaTable = () => {
         try {
             const res = await indexAllPizza();
             setPizzaData(res)
+            console.log(res)
         }
         catch (error) {
             console.log(error)
         }
     }
-
     useEffect(() => {
         fetchPizzaData()
     }, [])
@@ -29,7 +30,6 @@ const PizzaTable = () => {
   return (
     <div className="overflow-x-auto">
         <table className="table">
-            {/* head */}
             <thead>
             <tr>
                 <th>ID</th>
@@ -59,7 +59,7 @@ const PizzaTable = () => {
                     <td>
                         {pizza.name}
                         <br />
-                        <span className="badge badge-ghost badge-sm">{pizza.size}</span>
+                        <span className="badge badge-ghost badge-sm">{pizza.is_available.toString()}</span>
                     </td>
                     <td>{pizza.price}</td>
                     <th>
