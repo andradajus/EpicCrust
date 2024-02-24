@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   get "api/users" => "users#index"
   post "api/pizzas" => "pizzas#create"
   get "api/pizzas" => "pizzas#index"
+  patch "api/pizzas/:id/update_true" => "pizzas#update_availability_true"
+  patch "api/pizzas/:id/update_false" => "pizzas#update_availability_false"
   # Defines the root path route ("/")
   # root "posts#index"
 end

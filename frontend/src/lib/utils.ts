@@ -95,3 +95,29 @@ export const addPizza = async (event: React.FormEvent<HTMLFormElement>) => {
     }
   }
 };
+
+export const setAvailabilityTrue = async (id: number) => {
+  try {
+    const res = await axios.patch(`${backendBaseUrl}/api/pizzas/${id}/update_true`);
+    return res;
+  } catch (error) {
+    if (error) {
+      return error;
+    } else {
+      return error;
+    }
+  }
+};
+
+export const setAvailabilityFalse = async (id: number) => {
+  try {
+    const res = await axios.patch(`${backendBaseUrl}/api/pizzas/${id}/update_false`);
+    return res;
+  } catch (error) {
+    if (error) {
+      return error;
+    } else {
+      return error;
+    }
+  }
+};

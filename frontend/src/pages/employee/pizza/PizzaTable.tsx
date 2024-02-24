@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import { indexAllPizza } from '../../../lib/utils';
+import { GravityUiCircleCheckFill, GravityUiCircleXmarkFill } from '@/assets/Icons';
+import { setAvailabilityTrue, setAvailabilityFalse } from '../../../lib/utils';
 
 type PizzaDataProps = {
     id: number;
@@ -23,10 +25,33 @@ const PizzaTable = ({flag, setFlag}: {flag: boolean, setFlag: React.Dispatch<Rea
             console.log(error)
         }
     }
+
     useEffect(() => {
         fetchPizzaData()
         setFlag(false)
     }, [flag, setFlag])
+
+    const handleAvailabilityTrue = async (id: number) => {
+        try {
+            await setAvailabilityTrue(id);
+            setFlag(true)
+        }
+        catch (error) {
+            console.log(error)
+        }
+    }
+
+    const handleAvailabilityFalse = async (id: number) => {
+        try {
+            await setAvailabilityFalse(id);
+            setFlag(true)
+        }
+        catch (error) {
+            console.log(error)
+        }
+    }
+
+    const sortedPizzaData = pizzaData?.sort((a, b) => a.id - b.id);
 
   return (
     <div className="overflow-x-auto">
@@ -41,7 +66,7 @@ const PizzaTable = ({flag, setFlag}: {flag: boolean, setFlag: React.Dispatch<Rea
             </tr>
             </thead>
             <tbody>
-            {pizzaData?.map((pizza) => (
+            {sortedPizzaData?.map((pizza) => (
                 <tr key={pizza.id}>
                     <th>{pizza.id}</th>
                     <td>
@@ -60,11 +85,27 @@ const PizzaTable = ({flag, setFlag}: {flag: boolean, setFlag: React.Dispatch<Rea
                     <td>
                         {pizza.name}
                         <br />
-                        <span className="badge badge-ghost badge-sm">{pizza.is_available.toString()}</span>
+                        <span className="badge badge-ghost badge-sm">{(pizza.is_available.toString()).toUpperCase()}</span>
                     </td>
                     <td>{pizza.price}</td>
                     <th>
-                        <button className="btn btn-ghost btn-xs">Actions</button>
+                        <div className="flex flex-col justify-center">
+                            <div>
+                                {pizza.is_available ? (
+                                <div className="tooltip" data-tip="Set Availability to False">
+                                    <button className="btn btn-ghost" onClick={() => handleAvailabilityFalse(pizza.id)}>
+                                            <GravityUiCircleXmarkFill className="w-7 h-7"/>
+                                    </button>
+                                </div>
+                                ) : (
+                                <div className="tooltip" data-tip="Set Availability to True">
+                                    <button className="btn btn-ghost" onClick={() => handleAvailabilityTrue(pizza.id)}>
+                                            <GravityUiCircleCheckFill className="w-7 h-7"/>
+                                    </button>
+                                </div>
+                                )}
+                            </div>
+                        </div>
                     </th>
                 </tr>
             ))}

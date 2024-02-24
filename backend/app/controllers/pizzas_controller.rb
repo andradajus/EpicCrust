@@ -18,6 +18,18 @@ class PizzasController < ApplicationController
     render json: { pizzas: pizzas }, status: :created
   end
 
+  def update_availability_true
+    @pizza = Pizza.find(params[:id])
+    @pizza.update(is_available: true)
+    render json: @pizza
+  end
+
+  def update_availability_false
+    @pizza = Pizza.find(params[:id])
+    @pizza.update(is_available: false)
+    render json: @pizza
+  end
+
   private
 
   def pizza_params
