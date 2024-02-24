@@ -9,9 +9,12 @@ class User < ApplicationRecord
   :jwt_authenticatable,
   jwt_revocation_strategy: self
 
-
-
-
-
+  after_create :set_role_as_customer
   has_many :orders
+
+  private
+
+  def set_role_as_customer
+    update(role: 'customer')
+  end
 end
