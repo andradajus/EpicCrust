@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 const Login = () => {
     const backendBaseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
     const [email, setEmail] = useState('');
@@ -18,7 +19,6 @@ const Login = () => {
             }
         }
         if (token) {
-            console.log("token", token)
             navigate('/menu')
         }
     }, [navigate])
@@ -42,14 +42,16 @@ const Login = () => {
         document.cookie = `token=${token};path=/`;
         setEmail('')
         setPassword('')
-        navigate('/menu')
-        console.log('Login successful', res.data);
+        if (res.data.role == 'employee') {
+            navigate('/admin')
+        } else {
+            navigate('/menu')
+        }
         } catch (error) {
         console.error('Login failed', error);
         }
     };
 
-    console.log(backendBaseUrl)
 return (
     <>
         <div className="hero min-h-screen" style={{backgroundImage: 'url(https://wallpapers.com/images/high/thin-capricciosa-pizza-rcj1d6gllxeowytq.webp)'}}>
@@ -77,9 +79,17 @@ return (
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 opacity-70"><path fillRule="evenodd" d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z" clipRule="evenodd" /></svg>
                                 <input type="password" className="grow" placeholder="Password" value={password} onChange ={(e) => setPassword(e.target.value)}/>
                             </label>
-                            <label className="label">
-                                <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
-                            </label>
+                            <div className="flex justify-between">
+                                <label className="label">
+                                    <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
+                                </label>
+                                <Link to="/registration">
+                                    <label className="label">
+                                        <a className="label-text-alt link link-hover">No account yet? Register here!</a>
+                                    </label>
+                                </Link>
+                            </div>
+
                         </div>
                         <div className="form-control mt-6">
                             <button className="btn btn-primary">Login</button>
