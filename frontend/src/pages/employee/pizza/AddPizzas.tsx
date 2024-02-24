@@ -2,18 +2,20 @@ import React from 'react'
 import { AddPizzaInput } from '@/constants/Inputs';
 import { addPizza } from '@/lib/utils';
 import { useState } from 'react';
-const AddPizzas = () => {
-    const [isLoading, setIsLoading] = useState(false);
+const AddPizzas = ({closeAddPizzaModal: closeAddPizzaModal}: {closeAddPizzaModal: () => void}) => {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const handleAddPizza = async (event: React.FormEvent<HTMLFormElement>) => {
         setIsLoading(true);
         event.preventDefault
         try {
         await addPizza(event);
         setIsLoading(false);
+        closeAddPizzaModal()
         } catch (error) {
         console.log("Error retrieving your bookings. Please try again.");
         }
     };
+
   return (
     <>
         <div className="card shrink-0 w-full max-w-sm bg-base-100">

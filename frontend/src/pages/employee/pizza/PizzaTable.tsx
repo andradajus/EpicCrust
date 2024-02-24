@@ -9,7 +9,7 @@ type PizzaDataProps = {
     image: string;
     is_available: boolean;
 }
-const PizzaTable = () => {
+const PizzaTable = ({flag, setFlag}: {flag: boolean, setFlag: React.Dispatch<React.SetStateAction<boolean>>}) => {
     const [pizzaData, setPizzaData] = useState<PizzaDataProps[]>([]);
 
 
@@ -25,7 +25,8 @@ const PizzaTable = () => {
     }
     useEffect(() => {
         fetchPizzaData()
-    }, [])
+        setFlag(false)
+    }, [flag, setFlag])
 
   return (
     <div className="overflow-x-auto">
