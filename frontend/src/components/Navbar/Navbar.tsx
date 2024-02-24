@@ -1,8 +1,31 @@
-import { GameIconsFullPizza } from "@/assets/Icons"
+import { GameIconsFullPizza, MaterialSymbolsPersonRounded } from "@/assets/Icons"
 import { Link, useNavigate } from 'react-router-dom';
-
+import { useEffect, useState } from 'react'
 const Navbar = () => {
   const navigate = useNavigate()
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect (() => {
+    const cookies = document.cookie.split(';');
+    let token = null;
+    for (const cookie of cookies) {
+        const [cookieName, cookieValue] = cookie.trim().split('=');
+        if (cookieName === 'token') {
+            token = cookieValue;
+            break;
+        }
+    }
+    if (token) {
+        console.log("token", token)
+        setIsLoggedIn(true)
+    }
+  }, [navigate])
+
+  const handleLogout = () => {
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    setIsLoggedIn(false)
+  }
+
   return (
     <>
       <div className="navbar bg-base-100">
@@ -31,7 +54,29 @@ const Navbar = () => {
 
         <div className="flex-none">
           <div>
+            {!isLoggedIn ? (
             <button className="btn btn-ghost" onClick={() => navigate("/login")}>Login</button>
+              ) : (
+            <div className="dropdown dropdown-end">
+              <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                <MaterialSymbolsPersonRounded className="w-5 h-5"/>
+              </div>
+
+              <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+                <li>
+                  <a className="justify-between">
+                    Profile
+                    <span className="badge">New</span>
+                  </a>
+                </li>
+                <li><a>Settings</a></li>
+                <li onClick={handleLogout}>
+                  <a>Logout</a>
+                </li>
+              </ul>
+            </div>
+              )
+            }
           </div>
           <div className="dropdown dropdown-end">
             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
