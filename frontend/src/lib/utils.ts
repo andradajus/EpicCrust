@@ -23,7 +23,6 @@ export const registerUser = async (event: React.FormEvent<HTMLFormElement>) => {
       mobile_number: formData.get("mobile_number"),
     },
   };
-  console.log("Registration newUser", newUser)
   try {
     const res = await axios.post(`${backendBaseUrl}/users`, newUser);
     return res;
