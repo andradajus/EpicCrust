@@ -1,22 +1,76 @@
-
-
+import { indexAllPizza } from "@/lib/utils";
+import { useState, useEffect } from "react";
+type PizzaDataProps = {
+  id: number;
+  name: string;
+  size: string;
+  price: number;
+  image: string;
+  is_available: boolean;
+  description: string;
+}
 const Menu = () => {
+  const [pizzaData, setPizzaData] = useState<PizzaDataProps[]>([]);
+
+  const fetchPizzaData = async (): Promise<void> => {
+    try {
+      const res = await indexAllPizza();
+      console.log("pizza data", res)
+      setPizzaData(res)
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    fetchPizzaData()
+  }, [])
+
+  const groupByName = (arr: PizzaDataProps[]) => {
+    return arr.reduce((acc, pizza) => {
+        acc[pizza.name] = acc[pizza.name] || {
+            name: pizza.name,
+            image: pizza.image,
+            description: pizza.description,
+            sizes: [],
+        };
+        acc[pizza.name].sizes.push({
+            size: pizza.size,
+            price: pizza.price,
+            is_available: pizza.is_available,
+        });
+        return acc;
+    }, {} as Record<string, { name: string; image: string; description: string; sizes: { size: string; price: number; is_available: boolean }[] }>);
+};
+
+  const groupedPizzaData = groupByName(pizzaData);
+
   return (
     <>
-        <div className="card w-96 bg-base-100 shadow-xl hover:shadow-xl hover:shadow-primary">
-          <figure><img src="https://www.simplyrecipes.com/thmb/jrwZrBfoHYrOwTjo0MfG5V4k5uA=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/__opt__aboutcom__coeus__resources__content_migration__simply_recipes__uploads__2019__09__easy-pepperoni-pizza-lead-3-8f256746d649404baa36a44d271329bc.jpg" alt="Pepperoni" /></figure>
-          <div className="card-body">
-            <h2 className="card-title">
-              Pepperoni
-              <div className="badge badge-secondary">NEW</div>
-            </h2>
-            <p>A Pepperoni Pizza is a classic and beloved dish that features a thin or thick crust, topped with a rich tomato sauce, gooey melted mozzarella cheese, and perfectly seasoned slices of pepperoni. The pepperoni, known for its savory and slightly spicy flavor, crisps up during baking, creating a delightful contrast to the cheesy goodness. The result is a mouthwatering combination of textures and tastes, making each slice a satisfying and timeless choice for pizza enthusiasts.</p>
-            <div className="card-actions justify-end">
-              <div className="badge badge-outline">Pepperoni</div> 
-              <div className="badge badge-outline">Cheese</div>
+      <div className="flex flex-row justify-between mx-5">
+        {Object.values(groupedPizzaData).map((pizza) => (
+            <div key={pizza.name} className="card w-80 bg-base-100 shadow-xl hover:shadow-xl hover:shadow-primary">
+                <figure>
+                    <img src={pizza.image} alt={pizza.name} />
+                </figure>
+                <div className="card-body">
+                    <h2 className="card-title">
+                        {pizza.name}
+                        <div className="badge badge-secondary">NEW</div>
+                    </h2>
+                    <p>{pizza.description}</p>
+                    <div className="card-actions justify-end">
+                        {pizza.sizes.map((size) => (
+                            <div key={`${pizza.name}_${size.size}`} className="badge badge-outline">
+                                {`${size.size}: ${size.price}, Availability: ${size.is_available}`}
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
+        ))}
+      </div>
     </>
   )
 }
