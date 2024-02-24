@@ -67,22 +67,22 @@ export const AddPizzaInput = (): AddPizzaInputType => {
             },
         priceS: {
             label: 'Price (S)',
-            value: 'price',
+            value: 'priceS',
             type: 'number',
             },
         priceM: {
             label: 'Price (M)',
-            value: 'price',
+            value: 'priceM',
             type: 'number',
             },
         priceL: {
             label: 'Price (L)',
-            value: 'price',
+            value: 'priceL',
             type: 'number',
             },
         priceXL: {
             label: 'Price (XL)',
-            value: 'price',
+            value: 'priceXL',
             type: 'number',
             },
         image: {
@@ -93,7 +93,7 @@ export const AddPizzaInput = (): AddPizzaInputType => {
         description: {
             label: 'Description',
             value: 'description',
-            type: 'text',
+            type: 'textarea',
             }
     }
 }

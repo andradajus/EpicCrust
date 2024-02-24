@@ -1,9 +1,19 @@
 import React from 'react'
 import { AddPizzaInput } from '@/constants/Inputs';
+import { addPizza } from '@/lib/utils';
+import { useState } from 'react';
 const AddPizzas = () => {
-    const handleAddPizza = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-    }
+    const [isLoading, setIsLoading] = useState(false);
+    const handleAddPizza = async (event: React.FormEvent<HTMLFormElement>) => {
+        setIsLoading(true);
+        event.preventDefault
+        try {
+        await addPizza(event);
+        setIsLoading(false);
+        } catch (error) {
+        console.log("Error retrieving your bookings. Please try again.");
+        }
+    };
   return (
     <>
         <div className="card shrink-0 w-full max-w-sm bg-base-100">
@@ -16,7 +26,16 @@ const AddPizzas = () => {
                 </label>
             ))}
                 <div className="form-control mt-6">
+                {!isLoading ? (
                 <button className="btn btn-primary">Add Pizza</button>
+                ) : (
+                <button className="btn" disabled>
+                    <span className="loading loading-spinner"></span>
+                    Loading
+                </button>
+                    )
+                }
+
                 </div>
             </form>
         </div>

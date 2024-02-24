@@ -5,7 +5,7 @@ class PizzasController < ApplicationController
   end
   def create
     pizzas = []
-    pizza_params[:pizza].each do |pizza_data|
+    pizza_params[:pizzas].each do |pizza_data|
       pizza = Pizza.new(pizza_data)
       if pizza.save
         pizzas << pizza
@@ -21,6 +21,6 @@ class PizzasController < ApplicationController
   private
 
   def pizza_params
-    params.permit(pizza: [:name, :price, :image, :description, :size])
+    params.permit(pizzas: [:name, :price, :image, :description, :size])
   end
 end

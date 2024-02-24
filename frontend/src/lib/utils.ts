@@ -47,3 +47,51 @@ export const indexAllPizza = async () => {
     }
   }
 }
+
+export const addPizza = async (event: React.FormEvent<HTMLFormElement>) => {
+  event.preventDefault();
+
+  const formData = new FormData(event.currentTarget);
+  const newPizzas = {
+    pizzas: [
+      {
+        name: formData.get("name"),
+        price: formData.get("priceS"),
+        size: "S",
+        image: formData.get("image"),
+        description: formData.get("description"),
+      },
+      {
+        name: formData.get("name"),
+        price: formData.get("priceM"),
+        size: "M",
+        image: formData.get("image"),
+        description: formData.get("description"),
+      },
+      {
+        name: formData.get("name"),
+        price: formData.get("priceL"),
+        size: "L",
+        image: formData.get("image"),
+        description: formData.get("description"),
+      },
+      {
+        name: formData.get("name"),
+        price: formData.get("priceXL"),
+        size: "XL",
+        image: formData.get("image"),
+        description: formData.get("description"),
+      },
+    ],
+  };
+  try {
+    const res = await axios.post(`${backendBaseUrl}/api/pizzas`, newPizzas);
+    return res;
+  } catch (error) {
+    if (error) {
+      return error;
+    } else {
+      return error;
+    }
+  }
+};
