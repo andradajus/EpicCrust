@@ -34,3 +34,16 @@ export const registerUser = async (event: React.FormEvent<HTMLFormElement>) => {
     }
   }
 };
+
+export const indexAllPizza = async () => {
+  try {
+    const res = await axios.get(`${backendBaseUrl}/api/pizzas`);
+    return res.data;
+  } catch (error) {
+    if (error) {
+      return error;
+    } else {
+      return error;
+    }
+  }
+}

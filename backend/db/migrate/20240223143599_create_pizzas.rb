@@ -6,6 +6,7 @@ class CreatePizzas < ActiveRecord::Migration[7.1]
       t.string :image
       t.string :description
       t.string :size
+      t.boolean :is_available
       t.timestamps
     end
   end
