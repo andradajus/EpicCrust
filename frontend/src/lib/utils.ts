@@ -138,3 +138,26 @@ export const setAvailabilityFalse = async (id: number) => {
   }
 };
 
+
+export const addToCart = async (pizzaId: number) => {
+  try {
+    const res = await axios.post(`${backendBaseUrl}/api/add_to_cart`, {pizza_id: pizzaId});
+    return res;
+  } catch (error) {
+    console.error('Error:', error);
+    return error;
+  }
+};
+
+export const getOrder = async (orderId: string) => {
+  try {
+    const res = await axios.get(`${backendBaseUrl}/api/cart/${orderId}`);
+    return res.data;
+  } catch (error) {
+    console.error('Error:', error);
+    return error;
+  }
+};
+
+
+

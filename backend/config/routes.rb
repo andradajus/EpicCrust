@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   get "api/orders" => "orders#index_orders"
   get "api/cart" => "orders#index_cart"
   post "api/add_to_cart" => "orders#add_to_cart"
+  get "api/cart/:order_id" => "orders#orders_in_cart"
   # Defines the root path route ("/")
   # root "posts#index"
 end

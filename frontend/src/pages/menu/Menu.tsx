@@ -1,5 +1,6 @@
-import { indexAllPizza } from "@/lib/utils";
+import { addToCart, indexAllPizza } from "@/lib/utils";
 import { useState, useEffect } from "react";
+import axios from "axios";
 type PizzaDataProps = {
   id: number;
   name: string;
@@ -8,11 +9,18 @@ type PizzaDataProps = {
   image: string;
   is_available: boolean;
   description: string;
+  data: any
+  order_id: number;
+  res: any
 }
 
-const Menu = () => {
+type MenuProps = {
+  setCartFlag: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const Menu: React.FC<MenuProps> = ({ setCartFlag }) => {
   const [pizzaData, setPizzaData] = useState<PizzaDataProps[]>([]);
-  const [selectedPizzaId, setSelectedPizzaId] = useState<number | null>(null);
+  const [selectedPizzaId, setSelectedPizzaId] = useState<number>(0);
 
   const fetchPizzaData = async (): Promise<void> => {
     try {
@@ -24,10 +32,21 @@ const Menu = () => {
       console.log(error)
     }
   }
+  useEffect(() => {
+    const initiateAuthorization = () => {
+      const token = document.cookie.split("token=")[1];
+      if (token) {
+        axios.defaults.headers.common["Authorization"] = token;
+      }
+    };
+    initiateAuthorization();
+  }, []);
 
   useEffect(() => {
     fetchPizzaData()
   }, [])
+
+
 
   const groupByName = (arr: PizzaDataProps[]) => {
     return arr.reduce((acc, pizza) => {
@@ -38,7 +57,7 @@ const Menu = () => {
             sizes: [],
         };
         acc[pizza.name].sizes.push({
-            id: pizza.id, 
+            id: pizza.id,
             size: pizza.size,
             price: pizza.price,
             is_available: pizza.is_available,
@@ -47,9 +66,23 @@ const Menu = () => {
     }, {} as Record<string, { name: string; image: string; description: string; sizes: { id: number, size: string; price: number; is_available: boolean }[] }>);
   };
 
+  useEffect(() => {
+    console.log("selected pizza id", selectedPizzaId);
+  }, [selectedPizzaId]);
+
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedPizzaId(Number(event.target.value));
-    console.log("selected pizza id", selectedPizzaId)
+  };
+
+  const handleAddToCart = async (id: number) => {
+    try {
+      const res: any = await addToCart(id);
+      localStorage.setItem('OrderId', res.data.order_id)
+      setCartFlag(true);
+      setSelectedPizzaId(0);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+    }
   };
 
 
@@ -61,7 +94,7 @@ const Menu = () => {
       <div className="flex flex-row justify-around mx-5 my-3">
         {Object.values(groupedPizzaData).slice(0,3).map((pizza) =>
         (
-          <div key={pizza.name} className="card w-96 bg-base-100 shadow-xl hover:shadow-xl hover:shadow-primary">
+          <div key={pizza.name} className="card-body w-96 bg-base-100 shadow-xl">
             <figure>
               <img src={pizza.image} alt={pizza.name} />
             </figure>
@@ -92,7 +125,7 @@ const Menu = () => {
                 })}
               </div>
             </div>
-            <button className="btn btn-primary"onClick={() => console.log(selectedPizzaId)}>Add to Cart</button>
+            <button className="btn btn-primary" onClick={() => handleAddToCart(selectedPizzaId)}>Add to Cart</button>
           </div>
         ))}
       </div>
@@ -100,7 +133,7 @@ const Menu = () => {
       <div className="flex flex-row justify-around mx-5 my-3">
         {Object.values(groupedPizzaData).slice(3,6).map((pizza) =>
         (
-          <div key={pizza.name} className="card w-96 bg-base-100 shadow-xl hover:shadow-xl hover:shadow-primary">
+          <div key={pizza.name} className="card-body w-96 bg-base-100 shadow-xl">
             <figure>
               <img src={pizza.image} alt={pizza.name} />
             </figure>
@@ -131,7 +164,7 @@ const Menu = () => {
                 })}
               </div>
             </div>
-            <button className="btn btn-primary"onClick={() => console.log(selectedPizzaId)}>Add to Cart</button>
+            <button className="btn btn-primary" onClick={() => handleAddToCart(selectedPizzaId)}>Add to Cart</button>
           </div>
         ))}
       </div>
