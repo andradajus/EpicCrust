@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   get "api/pizzas" => "pizzas#index"
   patch "api/pizzas/:id/update_true" => "pizzas#update_availability_true"
   patch "api/pizzas/:id/update_false" => "pizzas#update_availability_false"
+  get "api/orders" => "orders#index_orders"
+  get "api/cart" => "orders#index_cart"
+  post "api/add_to_cart" => "orders#add_to_cart"
   # Defines the root path route ("/")
   # root "posts#index"
 end

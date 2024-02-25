@@ -5,6 +5,7 @@ class Order < ApplicationRecord
   belongs_to :user, optional: true
   has_many :order_pizzas
   has_many :pizzas, through: :order_pizzas
+  scope :in_progress, -> { where(status: 'in_progress') }
 
   private
   def generate_order_reference_number
