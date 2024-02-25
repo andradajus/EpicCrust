@@ -11,7 +11,7 @@ const HeroMain = () => {
             <p className="mb-5 text-xl">"Epic Crust: Where Every Slice Tells a Flavorful Tale!"</p>
             <button
             className="btn btn-primary"
-            onClick={() => navigate("/order")}
+            onClick={() => navigate("/menu")}
             >
             Order Now
             </button>

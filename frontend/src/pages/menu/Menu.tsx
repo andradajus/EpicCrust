@@ -12,6 +12,7 @@ type PizzaDataProps = {
 
 const Menu = () => {
   const [pizzaData, setPizzaData] = useState<PizzaDataProps[]>([]);
+  const [selectedPizzaId, setSelectedPizzaId] = useState<number | null>(null);
 
   const fetchPizzaData = async (): Promise<void> => {
     try {
@@ -37,20 +38,27 @@ const Menu = () => {
             sizes: [],
         };
         acc[pizza.name].sizes.push({
+            id: pizza.id, 
             size: pizza.size,
             price: pizza.price,
             is_available: pizza.is_available,
         });
         return acc;
-    }, {} as Record<string, { name: string; image: string; description: string; sizes: { size: string; price: number; is_available: boolean }[] }>);
-};
+    }, {} as Record<string, { name: string; image: string; description: string; sizes: { id: number, size: string; price: number; is_available: boolean }[] }>);
+  };
+
+  const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedPizzaId(Number(event.target.value));
+    console.log("selected pizza id", selectedPizzaId)
+  };
+
 
   const groupedPizzaData = groupByName(pizzaData);
   console.log('Group Pizza Data', groupedPizzaData)
 
   return (
     <>
-      <div className="flex flex-row justify-around mx-5">
+      <div className="flex flex-row justify-around mx-5 my-3">
         {Object.values(groupedPizzaData).slice(0,3).map((pizza) =>
         (
           <div key={pizza.name} className="card w-96 bg-base-100 shadow-xl hover:shadow-xl hover:shadow-primary">
@@ -74,19 +82,22 @@ const Menu = () => {
                         type="radio"
                         name="options"
                         id={`${pizza.name}_${sizeKey}`}
+                        value={size ? size.id : ''}
                         aria-label={size ? `${size.size}: ₱${size.price}` : ''}
                         disabled={!size?.is_available}
+                        onChange={handleRadioChange}
                       />
                     </div>
                   );
                 })}
               </div>
             </div>
+            <button className="btn btn-primary"onClick={() => console.log(selectedPizzaId)}>Add to Cart</button>
           </div>
         ))}
       </div>
 
-      <div className="flex flex-row justify-around mx-5">
+      <div className="flex flex-row justify-around mx-5 my-3">
         {Object.values(groupedPizzaData).slice(3,6).map((pizza) =>
         (
           <div key={pizza.name} className="card w-96 bg-base-100 shadow-xl hover:shadow-xl hover:shadow-primary">
@@ -110,14 +121,17 @@ const Menu = () => {
                         type="radio"
                         name="options"
                         id={`${pizza.name}_${sizeKey}`}
+                        value={size ? size.id : ''}
                         aria-label={size ? `${size.size}: ₱${size.price}` : ''}
                         disabled={!size?.is_available}
+                        onChange={handleRadioChange}
                       />
                     </div>
                   );
                 })}
               </div>
             </div>
+            <button className="btn btn-primary"onClick={() => console.log(selectedPizzaId)}>Add to Cart</button>
           </div>
         ))}
       </div>

@@ -77,6 +77,7 @@ const EmployeePizza = () => {
           name="options"
           aria-label="Upload Data"
           onClick={openUploadDataModal}
+          disabled
         />
       </div>
 

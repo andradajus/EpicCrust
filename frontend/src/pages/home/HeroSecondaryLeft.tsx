@@ -10,7 +10,7 @@ const HeroSecondaryLeft = () => {
             <p className="py-6">At Epic Crust, we don't just make pizza; we craft culinary masterpieces that redefine the art of pizza-making. Our mission is to elevate your pizza experience to new heights, one delectable slice at a time. From handcrafted crusts to mouthwatering toppings, we take pride in delivering a symphony of flavors that will tantalize your taste buds and leave you craving for more.</p>
                 <button 
                 className="btn btn-primary"
-                onClick = {() => navigate("/order")}
+                onClick = {() => navigate("/menu")}
                 >
                     Order Now
                 </button>
