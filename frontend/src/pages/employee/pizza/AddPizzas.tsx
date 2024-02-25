@@ -16,7 +16,7 @@ const AddPizzas = ({closeAddPizzaModal: closeAddPizzaModal}: {closeAddPizzaModal
         }
     };
 
-  return (
+    return (
     <>
         <div className="card shrink-0 w-full max-w-sm bg-base-100">
             <form className="card-body" onSubmit={handleAddPizza}>
@@ -43,7 +43,7 @@ const AddPizzas = ({closeAddPizzaModal: closeAddPizzaModal}: {closeAddPizzaModal
         </div>
 
     </>
-  )
+    )
 }
 
 export default AddPizzas

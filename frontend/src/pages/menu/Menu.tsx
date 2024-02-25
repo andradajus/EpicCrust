@@ -9,6 +9,7 @@ type PizzaDataProps = {
   is_available: boolean;
   description: string;
 }
+
 const Menu = () => {
   const [pizzaData, setPizzaData] = useState<PizzaDataProps[]>([]);
 
@@ -45,30 +46,79 @@ const Menu = () => {
 };
 
   const groupedPizzaData = groupByName(pizzaData);
+  console.log('Group Pizza Data', groupedPizzaData)
 
   return (
     <>
-      <div className="flex flex-row justify-between mx-5">
-        {Object.values(groupedPizzaData).map((pizza) => (
-            <div key={pizza.name} className="card w-80 bg-base-100 shadow-xl hover:shadow-xl hover:shadow-primary">
-                <figure>
-                    <img src={pizza.image} alt={pizza.name} />
-                </figure>
-                <div className="card-body">
-                    <h2 className="card-title">
-                        {pizza.name}
-                        <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>{pizza.description}</p>
-                    <div className="card-actions justify-end">
-                        {pizza.sizes.map((size) => (
-                            <div key={`${pizza.name}_${size.size}`} className="badge badge-outline">
-                                {`${size.size}: ${size.price}, Availability: ${size.is_available}`}
-                            </div>
-                        ))}
+      <div className="flex flex-row justify-around mx-5">
+        {Object.values(groupedPizzaData).slice(0,3).map((pizza) =>
+        (
+          <div key={pizza.name} className="card w-96 bg-base-100 shadow-xl hover:shadow-xl hover:shadow-primary">
+            <figure>
+              <img src={pizza.image} alt={pizza.name} />
+            </figure>
+            <div className="card-body">
+              <h2 className="card-title">
+                {pizza.name}
+                <div className="badge badge-secondary">NEW</div>
+              </h2>
+              <p>{pizza.description}</p>
+              <div className="card-actions justify-center">
+                {['S', 'M', 'L', 'XL'].map((sizeKey) => {
+                  const size = pizza.sizes.find((pizzaSize) => pizzaSize.size === sizeKey);
+
+                  return (
+                    <div key={`${pizza.name}_${sizeKey}`} className="join">
+                      <input
+                        className="join-item btn px-1"
+                        type="radio"
+                        name="options"
+                        id={`${pizza.name}_${sizeKey}`}
+                        aria-label={size ? `${size.size}: ₱${size.price}` : ''}
+                        disabled={!size?.is_available}
+                      />
                     </div>
-                </div>
+                  );
+                })}
+              </div>
             </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="flex flex-row justify-around mx-5">
+        {Object.values(groupedPizzaData).slice(3,6).map((pizza) =>
+        (
+          <div key={pizza.name} className="card w-96 bg-base-100 shadow-xl hover:shadow-xl hover:shadow-primary">
+            <figure>
+              <img src={pizza.image} alt={pizza.name} />
+            </figure>
+            <div className="card-body">
+              <h2 className="card-title">
+                {pizza.name}
+                <div className="badge badge-secondary">NEW</div>
+              </h2>
+              <p>{pizza.description}</p>
+              <div className="card-actions justify-center">
+                {['S', 'M', 'L', 'XL'].map((sizeKey) => {
+                  const size = pizza.sizes.find((pizzaSize) => pizzaSize.size === sizeKey);
+
+                  return (
+                    <div key={`${pizza.name}_${sizeKey}`} className="join">
+                      <input
+                        className="join-item btn px-1"
+                        type="radio"
+                        name="options"
+                        id={`${pizza.name}_${sizeKey}`}
+                        aria-label={size ? `${size.size}: ₱${size.price}` : ''}
+                        disabled={!size?.is_available}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
         ))}
       </div>
     </>

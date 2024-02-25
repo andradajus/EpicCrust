@@ -50,7 +50,6 @@ export const indexAllPizza = async () => {
 
 export const addPizza = async (event: React.FormEvent<HTMLFormElement>) => {
   event.preventDefault();
-
   const formData = new FormData(event.currentTarget);
   const newPizzas = {
     pizzas: [
@@ -93,6 +92,20 @@ export const addPizza = async (event: React.FormEvent<HTMLFormElement>) => {
     } else {
       return error;
     }
+  }
+};
+
+export const uploadDataPizza = async (pizza: FormData) => {
+  try {
+    const res = await axios.post(`${backendBaseUrl}/api/pizzas`, pizza, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return res;
+  } catch (error) {
+    console.error('Error:', error);
+    return error;
   }
 };
 
