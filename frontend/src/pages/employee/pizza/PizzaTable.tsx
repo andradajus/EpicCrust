@@ -51,10 +51,11 @@ const PizzaTable = ({flag, setFlag}: {flag: boolean, setFlag: React.Dispatch<Rea
         }
     }
 
-    const sortedPizzaData = pizzaData?.sort((a, b) => a.id - b.id);
+    const sortedPizzaData = pizzaData && pizzaData.length > 0 ? pizzaData.sort((a, b) => a.id - b.id) : [];
 
   return (
     <div className="overflow-x-auto">
+     {sortedPizzaData && sortedPizzaData.length > 0 ? (
         <table className="table">
             <thead>
             <tr>
@@ -111,8 +112,11 @@ const PizzaTable = ({flag, setFlag}: {flag: boolean, setFlag: React.Dispatch<Rea
             ))}
             </tbody>
         </table>
+        ) : (
+            <p>No products available</p>
+        )}
     </div>
-  )
+    )
 }
 
 export default PizzaTable
