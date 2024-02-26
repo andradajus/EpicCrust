@@ -306,16 +306,14 @@ Devise.setup do |config|
   config.responder.redirect_status = :see_other
 
   config.jwt do |jwt|
-    jwt.secret = ENV['DEVISE_JWT_SECRET_KEY']
+    jwt.secret = Rails.application.credentials.fetch(:secret_key_base)
     jwt.dispatch_requests = [
-      ['POST', %r{^/signin$}],
+      ['POST', %r{^/login$}]
     ]
     jwt.revocation_requests = [
-      ['DELETE', %r{^/signout$}]
+      ['DELETE', %r{^/logout$}]
     ]
-    jwt.expiration_time = 14.days.to_i
-    # Use default aud_header
-    jwt.aud_header = 'JWT_AUD'
+    jwt.expiration_time = 120.minutes.to_i
   end
 
   # ==> Configuration for :registerable

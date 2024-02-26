@@ -3,6 +3,7 @@ class Order < ApplicationRecord
 
   belongs_to :customer, optional: true
   belongs_to :user, optional: true
+  belongs_to :cart
   has_many :order_pizzas
   has_many :pizzas, through: :order_pizzas
   has_one :order_pizza

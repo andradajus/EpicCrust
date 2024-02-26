@@ -1,5 +1,8 @@
 class Cart < ApplicationRecord
   belongs_to :user
-  belongs_to :order
-  belongs_to :pizza
+  belongs_to :pizza, optional: true
+  has_many :orders
+
+  validates :user, presence: true
+  validates :quantity, presence: true
 end

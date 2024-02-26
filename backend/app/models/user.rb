@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  include Devise::JWT::RevocationStrategies::JTIMatcher
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable,
@@ -10,13 +11,14 @@ class User < ApplicationRecord
   jwt_revocation_strategy: self
 
   after_create :set_role_as_customer
-  after_create :create_cart
+  after_commit :create_cart, on: :create
   has_many :orders
+  has_one :cart, dependent: :destroy
 
   private
   def create_cart
-    build_order_pizza unless order_pizza.present?
-    order_pizza.save!
+    build_cart unless cart.present?
+    cart.save!
   end
 
   def set_role_as_customer
