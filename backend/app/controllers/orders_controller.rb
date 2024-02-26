@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
   def index_cart
-    @cart = OrderPizza.all
+    @cart = Cart.all
     render json: @cart
   end
 

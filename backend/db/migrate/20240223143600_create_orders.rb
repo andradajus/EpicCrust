@@ -9,9 +9,10 @@ class CreateOrders < ActiveRecord::Migration[7.1]
       t.timestamps
     end
 
-    create_table :order_pizzas do |t|
+    create_table :carts do |t|
       t.belongs_to :order, foreign_key: true
       t.belongs_to :pizza, foreign_key: true
+      t.belongs_to :user, foreign_key: true
       t.integer :quantity, default: 1
     end
   end

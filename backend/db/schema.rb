@@ -27,9 +27,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_23_154239) do
   create_table "order_pizzas", force: :cascade do |t|
     t.bigint "order_id"
     t.bigint "pizza_id"
+    t.bigint "user_id"
     t.integer "quantity", default: 1
     t.index ["order_id"], name: "index_order_pizzas_on_order_id"
     t.index ["pizza_id"], name: "index_order_pizzas_on_pizza_id"
+    t.index ["user_id"], name: "index_order_pizzas_on_user_id"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -75,6 +77,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_23_154239) do
 
   add_foreign_key "order_pizzas", "orders"
   add_foreign_key "order_pizzas", "pizzas"
+  add_foreign_key "order_pizzas", "users"
   add_foreign_key "orders", "customers"
   add_foreign_key "orders", "users"
 end
