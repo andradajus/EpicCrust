@@ -1,16 +1,15 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
   def index
-    @users = User.includes(orders: :cart).all
-    render json: @users, include: {
-      orders: {
-        include: {
-          cart: { only: :order_id }
-        }
-      },
-      cart: { only: :order_id }
-    }
+    @users = User.includes(orders: :cart).all.map do |user|
+      {
+        user_id: user.id,
+        cart_id: user.cart&.id
+      }
+    end
+    render json: @users
   end
+
 
   def current_user_order_id
     if current_user.present?

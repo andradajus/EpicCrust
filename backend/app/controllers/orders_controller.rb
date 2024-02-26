@@ -26,14 +26,16 @@ class OrdersController < ApplicationController
   def add_to_cart
     pizza_id = params[:pizza_id]
     if current_user.present?
-      @order = current_user.orders.in_progress.first_or_create
+      @cart = current_user.cart
+      @cart.update(pizza_id: pizza_id)
+      render json: { notice: 'Pizza added to cart successfully.'}
     else
       render json: { error: 'User not authenticated' }, status: :unauthorized
-      return
     end
-    @cart_item = @order.cart.find_or_create_by(pizza_id: pizza_id)
-    render json: { notice: 'Pizza added to cart successfully.', order_id: @order.id }
   end
+
+
+
   def orders_in_cart
     order_id = params[:order_id]
     @order_items = Cart.where(order_id: order_id).includes(:pizza)

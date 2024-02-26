@@ -6,6 +6,7 @@ import Order from './order/Order'
 import Menu from './menu/Menu'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import { fetchCartId } from '@/lib/utils'
 
 const HomeLayout = () => {
   const [cartFlag, setCartFlag] = useState<boolean>(false)
@@ -19,6 +20,22 @@ const HomeLayout = () => {
     };
     initiateAuthorization();
   }, []);
+
+  useEffect(() => {
+  const fetchCartIdData = async () => {
+    try {
+      const res = await fetchCartId()
+      console.log("cart id", res)
+      localStorage.setItem('OrderId', res.cart_id)
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
+    fetchCartIdData();
+  }, []);
+
+
 
   return (
     <>

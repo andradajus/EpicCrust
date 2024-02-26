@@ -51,6 +51,19 @@ export const indexAllPizza = async () => {
   }
 }
 
+export const fetchCartId = async () => {
+  try {
+    const res = await axios.get(`${backendBaseUrl}/api/current_user_order_id`);
+    return res.data;
+  } catch (error) {
+    if (error) {
+      return error;
+    } else {
+      return error;
+    }
+  }
+}
+
 export const addPizza = async (event: React.FormEvent<HTMLFormElement>) => {
   event.preventDefault();
   const formData = new FormData(event.currentTarget);
